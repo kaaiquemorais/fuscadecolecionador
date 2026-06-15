@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fusca 1500 · 1973 · Placa Preta</title>
-    <meta name="description" content="Fusca 1500 de 1973, placa preta, cor amarelo original, estado de conservação excepcional. Um exemplar único com história.">
+    <meta name="description" content="Fusca 1500 de 1973, placa preta, amarelo original, conservacao excepcional. Um classico com mais de 50 anos de historia. Socorro, SP.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -42,7 +42,6 @@
             display: block;
             border-radius: 4px;
         }
-        /* ciclo total: 2.2s scan + 1.2s check visível + 0.4s fade = 3.8s por loop */
         .scan-line {
             position: absolute;
             left: 0; right: 0;
@@ -110,13 +109,13 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            overflow: visible;
         }
 
         .hero-bg {
             position: absolute;
             inset: 0;
-            /* Salve a imagem gerada como FOTOS/hero.png */
-            background-image: url('FOTOS/5.png');
+            background-image: url('FOTOS/5.webp');
             background-size: cover;
             background-position: 68% center;
             filter: brightness(0.45) contrast(1.08) saturate(1.0);
@@ -229,6 +228,18 @@
             100% { opacity: 0; transform: scaleY(1); transform-origin: top; }
         }
 
+        /* ── HERO BOTTOM FADE (inside hero, no gap possible) ── */
+        .hero-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 220px;
+            background: linear-gradient(to bottom, transparent 0%, var(--black) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
         /* ── SHINY BUTTON ── */
         @property --angle {
             syntax: '<angle>';
@@ -268,7 +279,6 @@
             border-radius: 8px;
         }
 
-        /* rotating conic border */
         .shiny-cta::before {
             content: '';
             position: absolute;
@@ -287,7 +297,6 @@
             animation: spin-border 2.8s linear infinite;
         }
 
-        /* dark fill */
         .shiny-cta::after {
             content: '';
             position: absolute;
@@ -306,7 +315,6 @@
             overflow: hidden;
         }
 
-        /* shimmer sweep */
         .shiny-cta span::before {
             content: '';
             position: absolute;
@@ -332,16 +340,6 @@
             height: 17px;
             fill: currentColor;
             flex-shrink: 0;
-        }
-
-        /* ── HERO → STORY FADE ── */
-        .fold-fade {
-            height: 120px;
-            background: linear-gradient(to bottom, transparent 0%, var(--black) 100%);
-            margin-top: -120px;
-            position: relative;
-            z-index: 1;
-            pointer-events: none;
         }
 
         /* ── STORY ── */
@@ -422,6 +420,21 @@
             font-size: 0.78rem;
             color: rgba(232,216,181,0.42);
             margin-top: 0.3rem;
+        }
+
+        /* ── URGENCY BAR ── */
+        .urgency-bar {
+            text-align: center;
+            padding: 1.1rem 2rem;
+            border-top: 1px solid rgba(201,162,74,0.15);
+            border-bottom: 1px solid rgba(201,162,74,0.15);
+            background: rgba(201,162,74,0.05);
+        }
+        .urgency-bar span {
+            font-size: 0.68rem;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--gold);
         }
 
         /* ── GALLERY ── */
@@ -536,24 +549,6 @@
             font-size: 1rem;
             margin-bottom: 3rem;
         }
-        .wa-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.7rem;
-            background: var(--gold);
-            color: var(--black);
-            text-decoration: none;
-            padding: 1rem 2.25rem;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 500;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            border: 2px solid var(--gold);
-            transition: background 0.3s, color 0.3s;
-        }
-        .wa-btn:hover { background: transparent; color: var(--gold); }
-        .wa-btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
 
         /* ── FOOTER ── */
         footer {
@@ -569,17 +564,16 @@
 
         /* Tablet */
         @media (max-width: 768px) {
-            /* Hero: centraliza conteúdo */
             .hero { align-items: center; text-align: center; }
             .hero-bg { background-position: center center; }
             .hero-overlay {
                 background:
-                    rgba(10,8,5,0.42),
+                    rgba(17,17,17,0.52),
                     linear-gradient(to bottom,
-                        rgba(10,8,5,0.1)  0%,
-                        rgba(10,8,5,0)   35%,
-                        rgba(10,8,5,0.8) 80%,
-                        rgba(10,8,5,1)  100%
+                        rgba(17,17,17,0.15) 0%,
+                        rgba(17,17,17,0)   35%,
+                        rgba(17,17,17,0.8) 80%,
+                        rgba(17,17,17,1)  100%
                     );
             }
             .hero-content {
@@ -593,7 +587,6 @@
             .rule  { margin: 0 auto; }
             .scroll-cue { left: 50%; transform: translateX(-50%); }
 
-            /* Specs */
             .specs-wrap { padding: 4rem 1.5rem; }
             .specs-grid { grid-template-columns: repeat(2, 1fr); }
             .spec:nth-child(3n)       { border-right: 1px solid rgba(201,162,74,0.14); }
@@ -601,51 +594,39 @@
             .spec:nth-last-child(-n+2){ border-bottom: none; }
             .spec:nth-last-child(-n+3){ border-bottom: 1px solid rgba(201,162,74,0.14); }
 
-            /* Gallery */
             .gallery-wrap { padding: 4rem 1.5rem; }
             .grid { grid-template-columns: repeat(2, 1fr); }
 
-            /* Story */
             .story { padding: 3rem 1.5rem 4rem; }
 
-            /* Contact */
             .contact-wrap { padding: 4rem 1.5rem 5rem; }
         }
 
         /* Mobile */
         @media (max-width: 480px) {
-            /* Hero */
             .hero h1 { font-size: 2.75rem; }
             .badge { width: 84px; height: 84px; }
             .badge::before { inset: 5px; }
             .shiny-cta { font-size: 0.7rem; padding: 0.8rem 1.4rem; letter-spacing: 0.14em; }
 
-            /* Gallery: coluna única */
             .grid { grid-template-columns: 1fr; gap: 4px; }
 
-            /* Captions sempre visíveis (sem hover no touch) */
             .caption { transform: translateY(0); }
 
-            /* Specs */
             .specs-grid { grid-template-columns: 1fr 1fr; }
             .spec { padding: 1.5rem 1rem; }
             .spec-value { font-size: 1.4rem; }
 
-            /* Lightbox */
             .lb-prev { left: 0.5rem; }
             .lb-next { right: 0.5rem; }
             .lb-close { top: 1rem; right: 1rem; }
             .lb-img { max-width: 96vw; max-height: 80vh; }
 
-            /* Contact */
             .contact-wrap { padding: 3rem 1.5rem 4rem; }
-            .wa-btn { font-size: 0.75rem; padding: 0.9rem 1.5rem; }
 
-            /* Story */
             .story { padding: 2.5rem 1.25rem 3.5rem; }
             .story p { font-size: 0.95rem; }
 
-            /* Gallery wrap */
             .gallery-wrap { padding: 3rem 1rem; }
             .specs-wrap { padding: 3rem 1rem; }
         }
@@ -669,10 +650,10 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="plate-scanner">
-            <img src="PLACA/SUA%20VEZ%20DE%20SER%20UM%20%281%29.png" alt="Placa Preta" class="plate-img">
+            <img src="PLACA/SUA%20VEZ%20DE%20SER%20UM%20%281%29.webp" alt="Placa Preta" class="plate-img">
             <div class="scan-line"></div>
             <div class="scan-fill"></div>
-            <div class="check-badge">✓</div>
+            <div class="check-badge">&#10003;</div>
         </div>
         <h1>Fusca <em>1500</em></h1>
         <p class="hero-meta">Placa Preta &nbsp;·&nbsp; Amarelo Original &nbsp;·&nbsp; 1973</p>
@@ -680,32 +661,31 @@
         <a href="https://wa.me/5519996355986" class="shiny-cta" target="_blank" rel="noopener">
             <span>
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                Entrar em contato
+                Quero ver pessoalmente
             </span>
         </a>
     </div>
-    <div class="scroll-cue">Ver mais</div>
+    <div class="scroll-cue">Descubra o exemplar</div>
+    <div class="hero-fade"></div>
 </section>
-
-<div class="fold-fade"></div>
 
 <!-- STORY -->
 <section class="story">
-    <span class="label">O exemplar</span>
-    <h2>Cinquenta e dois anos.<br><i>Nenhuma concessão.</i></h2>
+    <span class="label">Por que este exemplar é diferente</span>
+    <h2>Um Fusca que o tempo<br><i>não conseguiu vencer.</i></h2>
     <p>
-        Placa preta não é categoria de qualquer carro. É um título conquistado com décadas de cuidado. Quando você vê esse Fusca pessoalmente, entende por que ele merece.
+        Placa preta exige o que a maioria dos carros nunca vai ter: mais de 30 anos de preservação contínua, documentação impecável e um dono que nunca abriu mão dos padrões. Este Fusca passou por tudo isso e chegou intacto até aqui.
     </p>
     <p>
-        Motor 1500 original, pintura impecável, interior de couro intacto, painel em madeira, rodas com friso branco e calotas cromadas. Documentação em dia, registro de placa preta dentro das normas. Tudo em ordem. Nada a esconder.
+        Motor 1500 refrigerado a ar, pintura amarela impecável, interior de couro preto sem rasgos, painel em madeira, frisos e calotas cromadas originais. Registro de placa preta dentro das normas. Documentação em dia. Nada a esconder.
     </p>
     <p>
-        Quem entende de carro sabe que exemplares assim não aparecem toda hora. Quando aparecem, somem rápido.
+        Quem entende de carro sabe: quando um clássico nesse estado aparece, quem hesita, perde. Este ainda está disponível. Por quanto tempo, ninguém sabe.
     </p>
     <a href="https://wa.me/5519996355986" class="shiny-cta" target="_blank" rel="noopener" style="margin-top:2.5rem;">
         <span>
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Quero este Fusca
+            Quero saber o valor agora
         </span>
     </a>
 </section>
@@ -714,12 +694,12 @@
 <div class="specs-wrap">
     <div class="specs-inner">
         <span class="label">Especificações</span>
-        <h3>Cada detalhe no lugar certo.</h3>
+        <h3>Números que não mentem.</h3>
         <div class="specs-grid">
             <div class="spec">
                 <div class="spec-label">Ano</div>
                 <div class="spec-value">1973</div>
-                <div class="spec-note">Fabricação original</div>
+                <div class="spec-note">Fabricacao original</div>
             </div>
             <div class="spec">
                 <div class="spec-label">Motor</div>
@@ -729,12 +709,12 @@
             <div class="spec">
                 <div class="spec-label">Placa</div>
                 <div class="spec-value">Preta</div>
-                <div class="spec-note">Colecionável</div>
+                <div class="spec-note">Registro em norma</div>
             </div>
             <div class="spec">
                 <div class="spec-label">Cor</div>
                 <div class="spec-value">Amarelo</div>
-                <div class="spec-note">Pintura original</div>
+                <div class="spec-note">Pintura impecavel</div>
             </div>
             <div class="spec">
                 <div class="spec-label">Interior</div>
@@ -750,47 +730,52 @@
     </div>
 </div>
 
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+    <span>Disponível agora em Socorro, SP &nbsp;·&nbsp; Visita com hora marcada &nbsp;·&nbsp; Um único comprador</span>
+</div>
+
 <!-- GALLERY -->
 <div class="gallery-wrap">
     <div class="gallery-inner">
         <span class="label">Galeria</span>
-        <h3>Veja com seus próprios olhos.</h3>
+        <h3>Cada ângulo conta uma história.</h3>
         <div class="grid" id="gallery">
             <div class="grid-item" data-i="0">
-                <img src="FOTOS/5.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">Silhueta que não precisa de apresentação</div>
+                <img src="FOTOS/5.webp" alt="Fusca 1500 1973 - vista lateral" loading="lazy">
+                <div class="caption">Cinquenta e dois anos de carater</div>
             </div>
             <div class="grid-item" data-i="1">
-                <img src="FOTOS/6.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">Faróis e para-choque cromados originais</div>
+                <img src="FOTOS/6.webp" alt="Fusca 1500 1973 - frente" loading="lazy">
+                <div class="caption">Cromados sem oxidacao</div>
             </div>
             <div class="grid-item" data-i="2">
-                <img src="FOTOS/3.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">Lataria sem intervenção</div>
+                <img src="FOTOS/3.webp" alt="Fusca 1500 1973 - lateral" loading="lazy">
+                <div class="caption">Lataria sem uma mossa</div>
             </div>
             <div class="grid-item" data-i="3">
-                <img src="FOTOS/1.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">52 anos de estrada</div>
+                <img src="FOTOS/1.webp" alt="Fusca 1500 1973 - externo" loading="lazy">
+                <div class="caption">O clássico que você sempre quis</div>
             </div>
             <div class="grid-item" data-i="4">
-                <img src="FOTOS/2.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">Friso branco e calota cromada</div>
+                <img src="FOTOS/2.webp" alt="Fusca 1500 1973 - roda" loading="lazy">
+                <div class="caption">Detalhes de fabrica, no lugar</div>
             </div>
             <div class="grid-item" data-i="5">
-                <img src="FOTOS/7.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">Pintura impecável</div>
+                <img src="FOTOS/7.webp" alt="Fusca 1500 1973 - pintura" loading="lazy">
+                <div class="caption">Pintura sem defeito visivel</div>
             </div>
             <div class="grid-item" data-i="6">
-                <img src="FOTOS/4.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">A estrada vista de dentro</div>
+                <img src="FOTOS/4.webp" alt="Fusca 1500 1973 - interior" loading="lazy">
+                <div class="caption">Interior que respeita os anos</div>
             </div>
             <div class="grid-item" data-i="7">
-                <img src="FOTOS/8.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">Couro preto e painel em madeira</div>
+                <img src="FOTOS/8.webp" alt="Fusca 1500 1973 - couro" loading="lazy">
+                <div class="caption">Acabamento original preservado</div>
             </div>
             <div class="grid-item" data-i="8">
-                <img src="FOTOS/9.png" alt="Fusca 1500 1973" loading="lazy">
-                <div class="caption">Cada detalhe tem uma história</div>
+                <img src="FOTOS/9.webp" alt="Fusca 1500 1973 - detalhe" loading="lazy">
+                <div class="caption">Nenhum detalhe foi esquecido</div>
             </div>
         </div>
     </div>
@@ -798,24 +783,22 @@
 
 <!-- LIGHTBOX -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto ampliada">
-    <button class="lb-btn lb-close" id="lb-close" aria-label="Fechar">✕</button>
-    <button class="lb-btn lb-prev"  id="lb-prev"  aria-label="Anterior">‹</button>
+    <button class="lb-btn lb-close" id="lb-close" aria-label="Fechar">&#10005;</button>
+    <button class="lb-btn lb-prev"  id="lb-prev"  aria-label="Anterior">&#8249;</button>
     <img class="lb-img" id="lb-img" src="" alt="">
-    <button class="lb-btn lb-next"  id="lb-next"  aria-label="Próxima">›</button>
+    <button class="lb-btn lb-next"  id="lb-next"  aria-label="Proxima">&#8250;</button>
 </div>
 
 <!-- CONTACT -->
-<!-- ATENÇÃO: substitua o número abaixo pelo seu WhatsApp real (só dígitos, com DDD e código do país) -->
-<!-- Exemplo: https://wa.me/5511999999999 -->
 <div class="contact-wrap">
     <div class="contact-inner">
         <span class="label">Contato</span>
-        <h2>Ainda disponível.</h2>
-        <p>Exemplares nesse estado de conservação são raros. Se você está lendo isso, ainda dá tempo. Entre em contato para mais fotos ou para agendar uma visita.</p>
+        <h2>Ele ainda espera por você.</h2>
+        <p>Um comprador. Uma oportunidade. Enquanto você está lendo, o Fusca ainda está disponível em Socorro, SP. Fale agora, agende sua visita e venha ver pessoalmente antes que outra pessoa chegue na frente.</p>
         <a href="https://wa.me/5519996355986" class="shiny-cta" target="_blank" rel="noopener">
             <span>
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                Falar pelo WhatsApp
+                Confirmar meu interesse
             </span>
         </a>
     </div>
@@ -825,15 +808,15 @@
 
 <script>
     const srcs = [
-        'FOTOS/5.png',
-        'FOTOS/6.png',
-        'FOTOS/3.png',
-        'FOTOS/1.png',
-        'FOTOS/2.png',
-        'FOTOS/7.png',
-        'FOTOS/4.png',
-        'FOTOS/8.png',
-        'FOTOS/9.png',
+        'FOTOS/5.webp',
+        'FOTOS/6.webp',
+        'FOTOS/3.webp',
+        'FOTOS/1.webp',
+        'FOTOS/2.webp',
+        'FOTOS/7.webp',
+        'FOTOS/4.webp',
+        'FOTOS/8.webp',
+        'FOTOS/9.webp',
     ];
 
     let cur = 0;
