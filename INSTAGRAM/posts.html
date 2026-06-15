@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Posts Instagram · Fusca 1500</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A24A; --black: #111111; --asphalt: #1C1C1C;
+  --cream: #E8D8B5; --silver: #BFC1C2; --white: #F5F5F0;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { background: #0d0d0d; color: var(--cream); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+/* TOP BAR */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,13,13,0.96); backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(201,162,74,0.2);
+  padding: 12px 28px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.topbar-logo {
+  font-family: 'Playfair Display', serif; color: var(--gold);
+  font-size: 0.82rem; letter-spacing: 0.12em; margin-right: 12px; white-space: nowrap;
+}
+.post-tab {
+  padding: 6px 14px; background: transparent;
+  border: 1px solid rgba(201,162,74,0.28); color: var(--silver);
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: all 0.2s; border-radius: 3px;
+}
+.post-tab:hover { border-color: var(--gold); color: var(--gold); }
+.post-tab.active { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 500; }
+
+/* LAYOUT */
+.layout {
+  display: grid; grid-template-columns: 580px 1fr;
+  gap: 44px; padding: 36px 40px; max-width: 1100px; margin: 0 auto;
+}
+
+/* SLIDE VIEWER */
+.viewer-label {
+  font-size: 0.63rem; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+}
+.slide-frame {
+  width: 540px; height: 540px; position: relative;
+  background: var(--black); overflow: hidden;
+  border: 1px solid rgba(201,162,74,0.1);
+}
+.slide-controls {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-top: 14px;
+}
+.slide-arrows { display: flex; gap: 8px; }
+.arrow-btn {
+  width: 40px; height: 40px; background: transparent;
+  border: 1px solid rgba(201,162,74,0.3); color: var(--gold);
+  cursor: pointer; font-size: 1.2rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; border-radius: 3px;
+}
+.arrow-btn:hover { background: var(--gold); color: var(--black); }
+.arrow-btn:disabled { opacity: 0.2; cursor: default; }
+.arrow-btn:disabled:hover { background: transparent; color: var(--gold); }
+.slide-indicator { font-size: 0.68rem; letter-spacing: 0.2em; color: rgba(232,216,181,0.35); }
+.dots { display: flex; gap: 7px; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(201,162,74,0.2); cursor: pointer; transition: background 0.2s; }
+.dot.active { background: var(--gold); }
+.kbd-hint { margin-top: 14px; font-size: 0.62rem; letter-spacing: 0.12em; color: rgba(232,216,181,0.18); }
+.kbd-hint kbd { display: inline-block; padding: 1px 5px; border: 1px solid rgba(232,216,181,0.12); border-radius: 2px; font-family: monospace; }
+
+/* CAPTION PANEL */
+.caption-panel { padding-top: 26px; }
+.post-title-display { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.35rem; font-weight: 400; margin-bottom: 4px; }
+.post-day-display { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(201,162,74,0.45); margin-bottom: 22px; }
+.caption-label { font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.caption-box {
+  background: var(--asphalt); border: 1px solid rgba(201,162,74,0.1);
+  border-radius: 6px; padding: 18px 20px; font-size: 0.875rem;
+  line-height: 1.78; color: var(--cream); white-space: pre-wrap;
+  margin-bottom: 14px; max-height: 340px; overflow-y: auto;
+}
+.caption-box::-webkit-scrollbar { width: 3px; }
+.caption-box::-webkit-scrollbar-thumb { background: rgba(201,162,74,0.25); }
+.copy-btn {
+  padding: 10px 22px; background: var(--gold); border: none;
+  color: var(--black); cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; border-radius: 3px; transition: opacity 0.2s;
+}
+.copy-btn:hover { opacity: 0.82; }
+.copy-btn.ok { background: #4e9e5a; color: #fff; }
+
+/* ─── SLIDE INTERNALS ─── */
+
+/* Photo full bleed */
+.sl-photo-bg { position: absolute; inset: 0; }
+.sl-photo-bg img { width: 100%; height: 100%; object-fit: cover; }
+.sl-veil { position: absolute; inset: 0; background: rgba(17,17,17,0.42); }
+.sl-grad { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(17,17,17,0.04) 0%, rgba(17,17,17,0.6) 52%, rgba(17,17,17,0.96) 100%); }
+.sl-bottom { position: absolute; bottom: 0; left: 0; right: 0; padding: 30px 34px 36px; }
+
+/* Text only */
+.sl-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 52px; text-align: center; background: var(--black); }
+
+/* Big number */
+.sl-numbox { position: absolute; inset: 0; background: var(--black); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
+
+/* Split */
+.sl-split { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; }
+.sl-split-img { position: relative; overflow: hidden; }
+.sl-split-img img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.62) saturate(0.8); }
+.sl-split-side { background: #161616; display: flex; flex-direction: column; justify-content: center; padding: 30px; }
+
+/* CTA */
+.sl-cta { position: absolute; inset: 0; background: linear-gradient(135deg, #0e0c07 0%, #1a1208 50%, #0e0c07 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 48px; }
+
+/* Shared text */
+.sl-lbl { font-size: 7.5px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold); }
+.sl-rule { width: 30px; height: 1px; background: var(--gold); margin: 12px auto; }
+.sl-h1 { font-family: 'Playfair Display', serif; color: var(--white); font-size: 2.6rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.sl-h1 em, .sl-h1 i { color: var(--gold); font-style: italic; }
+.sl-h2 { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.6rem; font-weight: 400; line-height: 1.22; }
+.sl-h2 em, .sl-h2 i { color: var(--gold); font-style: italic; }
+.sl-h3 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.1rem; font-weight: 400; line-height: 1.3; }
+.sl-body { font-size: 0.7rem; color: rgba(232,216,181,0.72); line-height: 1.72; margin-top: 12px; }
+.sl-meta { font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--silver); margin-top: 7px; }
+.sl-big { font-family: 'Playfair Display', serif; font-size: 5.8rem; font-weight: 700; color: var(--gold); line-height: 1; letter-spacing: -0.03em; }
+.sl-bigsub { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: rgba(232,216,181,0.45); letter-spacing: 0.05em; margin-top: 8px; }
+.sl-url { font-size: 7px; letter-spacing: 0.22em; color: rgba(201,162,74,0.5); text-transform: lowercase; margin-top: 14px; }
+
+/* Split spec list */
+.sl-specs { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+.sl-spec-val { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); line-height: 1; }
+.sl-spec-key { font-size: 6.5px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--silver); margin-top: 1px; }
+.sl-divider { width: 100%; height: 1px; background: rgba(201,162,74,0.1); }
+
+/* Stamp (bottom) */
+.sl-brand { position: absolute; bottom: 14px; left: 18px; display: flex; align-items: center; gap: 7px; }
+.sl-brand-line { width: 14px; height: 1px; background: rgba(201,162,74,0.4); }
+.sl-brand-txt { font-size: 6.5px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(201,162,74,0.4); }
+.sl-count { position: absolute; bottom: 14px; right: 18px; font-size: 6.5px; letter-spacing: 0.22em; color: rgba(201,162,74,0.28); }
+
+/* Corner deco */
+.sl-tl { position: absolute; top: 14px; left: 14px; width: 18px; height: 18px; border-top: 1px solid rgba(201,162,74,0.22); border-left: 1px solid rgba(201,162,74,0.22); }
+.sl-br { position: absolute; bottom: 14px; right: 14px; width: 18px; height: 18px; border-bottom: 1px solid rgba(201,162,74,0.22); border-right: 1px solid rgba(201,162,74,0.22); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-logo">Fusca 1500 · Instagram</span>
+</div>
+
+<div class="layout">
+  <div class="slide-viewer">
+    <div class="viewer-label" id="vlabel">Post 1 de 7</div>
+    <div class="slide-frame" id="frame"></div>
+    <div class="slide-controls">
+      <div class="slide-arrows">
+        <button class="arrow-btn" id="btnPrev" onclick="nav(-1)">&#8249;</button>
+        <button class="arrow-btn" id="btnNext" onclick="nav(1)">&#8250;</button>
+      </div>
+      <div class="dots" id="dots"></div>
+      <div class="slide-indicator" id="ind">1 / 1</div>
+    </div>
+    <div class="kbd-hint"><kbd>&#8592;</kbd> <kbd>&#8594;</kbd> slides &nbsp;&nbsp; <kbd>1</kbd> a <kbd>7</kbd> posts</div>
+  </div>
+
+  <div class="caption-panel">
+    <div class="post-title-display" id="ptitle"></div>
+    <div class="post-day-display" id="pday"></div>
+    <div class="caption-label">Legenda Instagram</div>
+    <div class="caption-box" id="caption"></div>
+    <button class="copy-btn" id="copybtn" onclick="copy()">Copiar legenda</button>
+  </div>
+</div>
+
+<script>
+const BRAND = `<div class="sl-brand"><div class="sl-brand-line"></div><div class="sl-brand-txt">Fusca 1500 · 1972</div></div>`;
+const TL = `<div class="sl-tl"></div>`;
+const BR = `<div class="sl-br"></div>`;
+function COUNT(i,t){ return `<div class="sl-count">${i+1} / ${t}</div>`; }
+
+function photo(s, idx, total) {
+  return `
+    <div class="sl-photo-bg"><img src="${s.src}" alt="Fusca"></div>
+    <div class="sl-veil"></div><div class="sl-grad"></div>${TL}
+    <div class="sl-bottom">
+      <div class="sl-lbl">${s.lbl}</div>
+      <div class="sl-rule" style="margin:9px 0;"></div>
+      <div class="sl-h2">${s.h}</div>
+      <div class="sl-meta">${s.meta}</div>
+    </div>
+    ${BRAND}${COUNT(idx,total)}`;
+}
+
+function textSlide(s, idx, total) {
+  return `
+    <div class="sl-text">${TL}${BR}
+      ${s.lbl?`<div class="sl-lbl">${s.lbl}</div>`:''}
+      <div class="sl-rule"></div>
+      <div class="sl-h2" style="margin-bottom:${s.sub||s.body?'14px':'0'}">${s.h}</div>
+      ${s.sub?`<div class="sl-h3" style="margin-bottom:12px;">${s.sub}</div>`:''}
+      ${s.body?`<div class="sl-body">${s.body}</div>`:''}
+    </div>${BRAND}${COUNT(idx,total)}`;
+}
+
+function numSlide(s, idx, total) {
+  return `
+    <div class="sl-numbox">${TL}${BR}
+      <div class="sl-lbl">${s.lbl}</div>
+      <div class="sl-big">${s.big}</div>
+      <div class="sl-rule"></div>
+      <div class="sl-bigsub">${s.sub}</div>
+    </div>${BRAND}${COUNT(idx,total)}`;
+}
+
+function splitSlide(s, idx, total) {
+  const items = s.specs.map((sp,i) => `
+    ${i>0?'<div class="sl-divider"></div>':''}
+    <div><div class="sl-spec-val">${sp.v}</div><div class="sl-spec-key">${sp.k}</div></div>`).join('');
+  return `
+    <div class="sl-split">
+      <div class="sl-split-img"><img src="${s.src}" alt="Fusca"></div>
+      <div class="sl-split-side">
+        ${s.lbl?`<div class="sl-lbl" style="margin-bottom:6px;">${s.lbl}</div>`:''}
+        <div class="sl-specs">${items}</div>
+      </div>
+    </div>${BRAND}${COUNT(idx,total)}`;
+}
+
+function ctaSlide(s, idx, total) {
+  return `
+    <div class="sl-cta">${TL}${BR}
+      <div class="sl-lbl" style="margin-bottom:18px;">Fusca 1500 · Placa Preta</div>
+      <div class="sl-h2" style="margin-bottom:10px;">${s.h}</div>
+      <div class="sl-rule"></div>
+      <div class="sl-meta" style="margin-bottom:8px;">${s.sub}</div>
+      <div class="sl-url">${s.url}</div>
+    </div>${COUNT(idx,total)}`;
+}
+
+function placaSlide(s, idx, total) {
+  return `
+    <div class="sl-cta" style="background:var(--black);">${TL}${BR}
+      <img src="../PLACA/SUA%20VEZ%20DE%20SER%20UM%20%281%29.webp" style="width:68%;border-radius:4px;margin-bottom:22px;">
+      <div class="sl-lbl" style="margin-bottom:7px;">${s.lbl}</div>
+      <div class="sl-rule"></div>
+      <div class="sl-h3" style="font-family:'Playfair Display',serif;color:var(--white);font-size:1.3rem;">${s.h}</div>
+      <div class="sl-body" style="margin-top:9px;">${s.sub}</div>
+    </div>${BRAND}${COUNT(idx,total)}`;
+}
+
+// ── POSTS DATA ───────────────────────────────────────────────────────────────
+
+const POSTS = [
+
+{
+  title: 'Lancamento',
+  day: 'Dia 1 de 7',
+  caption:
+`Um Fusca 1500 de 1972, placa preta, bege original. 54 anos preservados como deveriam ser.
+
+Motor 1500 refrigerado a ar. Carroceria sem intervenção. Interior de couro intacto. Documentação em dia.
+
+Raridade assim não fica disponível por muito tempo. Conheça em fuscadecolecionador.netlify.app
+
+📍 Socorro, SP · Visita com hora marcada
+
+#fusca #fuscacolecionador #placapreta #volkswagen #vw1500 #carroantigo #classicosbrasil #fuscalover #colecionavel #socorro`,
+  slides: [
+    { t:'photo', src:'../FOTOS/5.webp', lbl:'O exemplar', h:'Fusca <em>1500</em>', meta:'1972 · Placa Preta · Bege Original' },
+    { t:'text', lbl:'Por que este é diferente', h:'54 anos.', sub:'Cada detalhe preservado<br>como deveria ser.', body:'Placa preta exige preservação contínua,<br>documentação impecável e padrões nunca abertos.' },
+    { t:'split', src:'../FOTOS/6.webp', lbl:'Especificações', specs:[{v:'1972',k:'Ano'},{v:'1500',k:'Motor'},{v:'Preta',k:'Placa'},{v:'Bege',k:'Cor'}] },
+    { t:'photo', src:'../FOTOS/8.webp', lbl:'Interior', h:'Couro intacto.', meta:'Interior preservado como saiu da fábrica' },
+    { t:'photo', src:'../FOTOS/7.webp', lbl:'Carroceria', h:'Pintura sem defeito.', meta:'Bege original · Sem intervenção' },
+    { t:'cta', h:'Disponível em Socorro, SP', sub:'Visita com hora marcada', url:'fuscadecolecionador.netlify.app' },
+  ]
+},
+
+{
+  title: 'Especificações',
+  day: 'Dia 2 de 7',
+  caption:
+`Os números falam por si.
+
+1972 · Motor 1500 · Placa Preta em norma · Interior de couro · Estado muito conservado.
+
+Para quem entende de clássico, não precisa de muito mais.
+
+🔗 fuscadecolecionador.netlify.app
+📍 Socorro, SP
+
+#fusca1500 #placapreta #volkswagen #carroantigo #fuscabrasil #colecionavel #socorro`,
+  slides: [
+    { t:'text', lbl:'Fusca 1500 · 1972', h:'Os números de<br>um <i>lendário</i>.', body:'Cada dado representa décadas<br>de cuidado e preservação ininterrupta.' },
+    { t:'num', big:'1972', sub:'Fabricação original', lbl:'Ano' },
+    { t:'num', big:'1500', sub:'Refrigerado a ar', lbl:'Motor cc' },
+    { t:'text', lbl:'Placa', h:'<i>Preta.</i>', sub:'Registro em norma.', body:'Mais de 30 anos de preservação<br>e documentação impecável.' },
+    { t:'cta', h:'Documentação em dia.', sub:'Tudo em ordem · Nada a esconder', url:'fuscadecolecionador.netlify.app' },
+  ]
+},
+
+{
+  title: 'Exterior',
+  day: 'Dia 3 de 7',
+  caption:
+`Cada ângulo conta uma história.
+
+Lataria original. Cromados sem oxidação. Friso branco e calotas no lugar. Pintura sem defeito.
+
+54 anos assim não aparecem em qualquer anúncio.
+
+🔗 fuscadecolecionador.netlify.app
+
+#fusca #vwfusca #carroantigo #placapreta #classicosbrasil #fuscalover`,
+  slides: [
+    { t:'photo', src:'../FOTOS/5.webp', lbl:'Exterior', h:'Cada ângulo conta.', meta:'Uma cor que o tempo não apagou' },
+    { t:'photo', src:'../FOTOS/6.webp', lbl:'Frente', h:'Cromados sem oxidação.', meta:'Faróis e para-choque originais' },
+    { t:'photo', src:'../FOTOS/3.webp', lbl:'Lateral', h:'Cada linha intacta.', meta:'Lataria original · Sem intervenção' },
+    { t:'photo', src:'../FOTOS/2.webp', lbl:'Detalhe', h:'Detalhes de fábrica, no lugar.', meta:'Friso branco e calota cromada' },
+    { t:'photo', src:'../FOTOS/1.webp', lbl:'O exemplar completo', h:'O clássico que você sempre quis.', meta:'Fusca 1500 · 1972 · Placa Preta' },
+    { t:'cta', h:'Galeria completa.', sub:'Veja todos os ângulos', url:'fuscadecolecionador.netlify.app' },
+  ]
+},
+
+{
+  title: 'Interior',
+  day: 'Dia 4 de 7',
+  caption:
+`Por dentro é onde a história vive.
+
+Couro preto original, sem rasgos. Painel em madeira. Acabamento preservado como saiu da fábrica.
+
+54 anos e está assim.
+
+🔗 fuscadecolecionador.netlify.app
+📍 Socorro, SP
+
+#fusca #interior #carroantigo #classicosbrasil #placapreta #vwfusca`,
+  slides: [
+    { t:'photo', src:'../FOTOS/4.webp', lbl:'Interior', h:'Por dentro.', meta:'Onde a história realmente vive' },
+    { t:'photo', src:'../FOTOS/8.webp', lbl:'Acabamento', h:'Couro preto. Sem rasgos.', meta:'Original · Preservado · Intacto' },
+    { t:'photo', src:'../FOTOS/9.webp', lbl:'Detalhes', h:'Nenhum detalhe foi esquecido.', meta:'Painel em madeira original' },
+    { t:'text', lbl:'Interior', h:'Preservado<br>como nos <i>anos 70.</i>', body:'Couro preto intacto, painel em madeira,<br>acabamento original. Nenhuma concessão.' },
+    { t:'cta', h:'Venha ver pessoalmente.', sub:'Visita com hora marcada', url:'Socorro, SP · (19) 99635-5986' },
+  ]
+},
+
+{
+  title: 'Placa Preta',
+  day: 'Dia 5 de 7',
+  caption:
+`Placa preta. Não é qualquer carro que chega aqui.
+
+Para ter placa preta, um carro precisa de mais de 30 anos de preservação e documentação impecável. Este Fusca tem tudo isso.
+
+1972. Registro em norma. Motor 1500. Disponível agora.
+
+🔗 fuscadecolecionador.netlify.app
+📍 Socorro, SP
+
+#placapreta #fusca #colecionavel #carroantigo #vwbrasil #volkswagen`,
+  slides: [
+    { t:'placa', lbl:'Categoria exclusiva', h:'Placa preta.', sub:'O que isso significa.' },
+    { t:'text', lbl:'O que é placa preta', h:'Mais de 30 anos<br>de <i>preservação.</i>', body:'A categoria exige histórico limpo<br>e cuidado ininterrupto por décadas.' },
+    { t:'text', lbl:'Documentação', h:'Registro em norma.', sub:'Documentação impecável.', body:'Tudo em ordem. Nada a esconder.<br>Pronto para transferência.' },
+    { t:'text', lbl:'Quem merece', h:'Reservada a quem<br>nunca <i>abriu mão.</i>', body:'Este Fusca não abriu mão de nada.<br>Cada ano preservado como deveria ser.' },
+    { t:'photo', src:'../FOTOS/1.webp', lbl:'Disponível', h:'Este Fusca chegou.', meta:'E está disponível · Socorro, SP' },
+  ]
+},
+
+{
+  title: 'Urgência',
+  day: 'Dia 6 de 7',
+  caption:
+`Ainda disponível.
+
+Exemplares nesse estado de conservação somem antes de qualquer anúncio terminar.
+
+Se você está lendo isso, o Fusca ainda está aqui. Por quanto tempo, ninguém sabe.
+
+📞 (19) 99635-5986
+📍 Socorro, SP
+
+#fusca #placapreta #oportunidade #carroantigo #fuscacolecionador`,
+  slides: [
+    { t:'photo', src:'../FOTOS/5.webp', lbl:'Status', h:'Ainda disponível.', meta:'Por quanto tempo, ninguém sabe' },
+    { t:'text', lbl:'A realidade', h:'Exemplares assim<br>não esperam.', body:'Quando um clássico nesse estado aparece,<br>quem hesita, perde.' },
+    { t:'text', lbl:'O que você está perdendo', h:'54 anos.<br>Motor 1500.<br><i>Placa preta.</i>', body:'Bege original · Couro intacto · Documentação em dia' },
+    { t:'cta', h:'Fale agora.', sub:'(19) 99635-5986', url:'fuscadecolecionador.netlify.app' },
+  ]
+},
+
+{
+  title: 'CTA Final',
+  day: 'Dia 7 de 7',
+  caption:
+`Agora é com você.
+
+Fusca 1500 · 1972 · Placa Preta · Bege Original
+Motor refrigerado a ar · Couro intacto · Documentação em dia
+
+📍 Socorro, SP · Visita com hora marcada
+📞 (19) 99635-5986
+🔗 fuscadecolecionador.netlify.app
+
+#fusca #fuscacolecionador #placapreta #volkswagen #carroantigo #classicosbrasil`,
+  slides: [
+    { t:'photo', src:'../FOTOS/1.webp', lbl:'A decisão', h:'Agora é com você.', meta:'Fusca 1500 · 1972 · Placa Preta' },
+    { t:'split', src:'../FOTOS/5.webp', lbl:'Resumo', specs:[{v:'1972',k:'Ano'},{v:'1500',k:'Motor'},{v:'Preta',k:'Placa'},{v:'Bege',k:'Cor'}] },
+    { t:'photo', src:'../FOTOS/7.webp', lbl:'O que você leva', h:'O clássico que você procurava.', meta:'Conservado · Documentado · Disponível' },
+    { t:'text', lbl:'Visita', h:'Socorro, SP.', sub:'Visita com hora marcada.', body:'Venha ver pessoalmente. Cada detalhe.<br>Nenhuma surpresa. Nada a esconder.' },
+    { t:'cta', h:'Agora é com você.', sub:'(19) 99635-5986', url:'fuscadecolecionador.netlify.app' },
+  ]
+},
+
+];
+
+// ── STATE & RENDER ────────────────────────────────────────────────────────────
+
+let P = 0, S = 0;
+
+function renderSlide(s, idx, total) {
+  if (s.t === 'photo') return photo(s, idx, total);
+  if (s.t === 'text')  return textSlide(s, idx, total);
+  if (s.t === 'num')   return numSlide(s, idx, total);
+  if (s.t === 'split') return splitSlide(s, idx, total);
+  if (s.t === 'cta')   return ctaSlide(s, idx, total);
+  if (s.t === 'placa') return placaSlide(s, idx, total);
+  return '';
+}
+
+function render() {
+  const post = POSTS[P];
+  const total = post.slides.length;
+
+  document.getElementById('frame').innerHTML = renderSlide(post.slides[S], S, total);
+  document.getElementById('vlabel').textContent = `Post ${P+1} de ${POSTS.length} · ${post.title}`;
+  document.getElementById('ptitle').textContent = post.title;
+  document.getElementById('pday').textContent = post.day;
+  document.getElementById('caption').textContent = post.caption;
+  document.getElementById('ind').textContent = `${S+1} / ${total}`;
+  document.getElementById('btnPrev').disabled = S === 0;
+  document.getElementById('btnNext').disabled = S === total - 1;
+
+  // dots
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === S ? ' active' : '');
+    d.onclick = (i => () => { S = i; render(); })(i);
+    dotsEl.appendChild(d);
+  }
+
+  // tabs
+  const topbar = document.querySelector('.topbar');
+  topbar.querySelectorAll('.post-tab').forEach(t => t.remove());
+  POSTS.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.className = 'post-tab' + (i === P ? ' active' : '');
+    b.textContent = `${i+1}. ${p.title}`;
+    b.onclick = () => { P = i; S = 0; render(); };
+    topbar.appendChild(b);
+  });
+
+  // reset copy button
+  const cb = document.getElementById('copybtn');
+  cb.textContent = 'Copiar legenda';
+  cb.className = 'copy-btn';
+}
+
+function nav(d) {
+  const t = POSTS[P].slides.length;
+  const ns = S + d;
+  if (ns >= 0 && ns < t) { S = ns; render(); }
+}
+
+function copy() {
+  navigator.clipboard.writeText(POSTS[P].caption).then(() => {
+    const b = document.getElementById('copybtn');
+    b.textContent = 'Copiado!';
+    b.className = 'copy-btn ok';
+    setTimeout(() => { b.textContent = 'Copiar legenda'; b.className = 'copy-btn'; }, 2200);
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft')  nav(-1);
+  if (e.key === 'ArrowRight') nav(1);
+  const n = parseInt(e.key);
+  if (n >= 1 && n <= POSTS.length) { P = n-1; S = 0; render(); }
+});
+
+render();
+</script>
+</body>
+</html>
