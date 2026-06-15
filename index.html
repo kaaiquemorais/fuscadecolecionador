@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fusca 1500 · 1973 · Placa Preta</title>
+    <meta name="description" content="Fusca 1500 de 1973, placa preta, cor amarelo original, estado de conservação excepcional. Um exemplar único com história.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold:    #C9A24A;
+            --silver:  #BFC1C2;
+            --black:   #111111;
+            --asphalt: #1C1C1C;
+            --cream:   #E8D8B5;
+            --white:   #F5F5F0;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* ── PLATE SCANNER ── */
+        .plate-scanner {
+            position: relative;
+            width: clamp(220px, 52vw, 390px);
+            margin: 0 auto 2.5rem;
+        }
+        .plate-img {
+            width: 100%;
+            display: block;
+            border-radius: 4px;
+        }
+        /* ciclo total: 2.2s scan + 1.2s check visível + 0.4s fade = 3.8s por loop */
+        .scan-line {
+            position: absolute;
+            left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, #C9A24A 25%, #f0d080 50%, #C9A24A 75%, transparent 100%);
+            box-shadow: 0 0 10px #C9A24A, 0 0 28px rgba(201,162,74,0.55);
+            top: 0;
+            opacity: 0;
+            animation: scan-sweep 3.8s cubic-bezier(0.4,0,0.6,1) 0.6s infinite;
+            pointer-events: none;
+        }
+        @keyframes scan-sweep {
+            0%   { top: 0%;    opacity: 0; }
+            5%   { opacity: 1; }
+            55%  { top: 100%;  opacity: 1; }
+            60%  { top: 100%;  opacity: 0; }
+            100% { top: 100%;  opacity: 0; }
+        }
+        .scan-fill {
+            position: absolute;
+            inset: 0;
+            height: 0%;
+            background: rgba(201,162,74,0.07);
+            animation: fill-area 3.8s cubic-bezier(0.4,0,0.6,1) 0.6s infinite;
+            pointer-events: none;
+        }
+        @keyframes fill-area {
+            0%   { height: 0%;   opacity: 0; }
+            5%   { opacity: 1; }
+            55%  { height: 100%; opacity: 0.9; }
+            60%  { height: 100%; opacity: 0; }
+            100% { height: 0%;   opacity: 0; }
+        }
+        .check-badge {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 54px; height: 54px;
+            border-radius: 50%;
+            background: #7a5c1e;
+            border: 2.5px solid #C9A24A;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.65rem;
+            color: #fff;
+            opacity: 0;
+            animation: badge-loop 3.8s ease 0.6s infinite;
+            box-shadow: 0 0 26px rgba(201,162,74,0.7), 0 0 52px rgba(201,162,74,0.3);
+            pointer-events: none;
+        }
+        @keyframes badge-loop {
+            0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
+            55%  { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
+            68%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            85%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            height: 100svh;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            /* Salve a imagem gerada como FOTOS/hero.png */
+            background-image: url('FOTOS/5.png');
+            background-size: cover;
+            background-position: 68% center;
+            filter: brightness(0.45) contrast(1.08) saturate(1.0);
+            transform: scale(1.03);
+            transition: transform 10s ease;
+        }
+        .hero:hover .hero-bg { transform: scale(1); }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                rgba(17,17,17,0.48),
+                linear-gradient(to bottom,
+                    rgba(17,17,17,0.15) 0%,
+                    rgba(17,17,17,0)   35%,
+                    rgba(17,17,17,0.7) 80%,
+                    rgba(17,17,17,1)  100%
+                );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            max-width: 640px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* badge circular */
+        .badge {
+            width: 108px;
+            height: 108px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2.25rem;
+            position: relative;
+        }
+        .badge::before {
+            content: '';
+            position: absolute;
+            inset: 7px;
+            border-radius: 50%;
+            border: 1px solid rgba(201,162,74,0.35);
+        }
+        .badge-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--gold);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.25rem, 7vw, 6rem);
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.25rem;
+        }
+        .hero h1 em {
+            font-style: normal;
+            color: var(--gold);
+        }
+
+        .hero-meta {
+            font-size: 0.72rem;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: var(--silver);
+            margin-bottom: 2.5rem;
+        }
+
+        .rule { width: 48px; height: 1px; background: var(--gold); margin: 0 auto; }
+
+        .scroll-cue {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(232,216,181,0.4);
+        }
+        .scroll-cue::after {
+            content: '';
+            width: 1px;
+            height: 36px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: drop 1.6s ease-in-out infinite;
+        }
+        @keyframes drop {
+            0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+            60%  { opacity: 1; }
+            100% { opacity: 0; transform: scaleY(1); transform-origin: top; }
+        }
+
+        /* ── SHINY BUTTON ── */
+        @property --angle {
+            syntax: '<angle>';
+            inherits: false;
+            initial-value: 0deg;
+        }
+
+        @keyframes spin-border { to { --angle: 360deg; } }
+        @keyframes shimmer-sweep {
+            0%   { left: -80%; opacity: 0; }
+            10%  { opacity: 1; }
+            100% { left: 120%; opacity: 0; }
+        }
+        @keyframes breathe-glow {
+            0%, 100% { box-shadow: 0 0 12px 2px rgba(201,162,74,0.25); }
+            50%       { box-shadow: 0 0 28px 6px rgba(201,162,74,0.55); }
+        }
+
+        .shiny-cta {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.9rem 2rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--white);
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            isolation: isolate;
+            margin-top: 2.25rem;
+            border-radius: 8px;
+        }
+
+        /* rotating conic border */
+        .shiny-cta::before {
+            content: '';
+            position: absolute;
+            inset: -1.5px;
+            z-index: -2;
+            border-radius: 9.5px;
+            background: conic-gradient(
+                from var(--angle),
+                transparent       0%,
+                transparent      60%,
+                #C9A24A          72%,
+                #fff8dc          82%,
+                #C9A24A          90%,
+                transparent     100%
+            );
+            animation: spin-border 2.8s linear infinite;
+        }
+
+        /* dark fill */
+        .shiny-cta::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            z-index: -1;
+            border-radius: 7px;
+            background: rgba(12,10,7,0.92);
+        }
+
+        .shiny-cta span {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            overflow: hidden;
+        }
+
+        /* shimmer sweep */
+        .shiny-cta span::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -80%;
+            width: 45%;
+            height: 160%;
+            background: linear-gradient(90deg, transparent, rgba(255,248,200,0.22), transparent);
+            transform: skewX(-18deg);
+            opacity: 0;
+        }
+
+        .shiny-cta:hover span::before {
+            animation: shimmer-sweep 0.7s ease forwards;
+        }
+
+        .shiny-cta:hover {
+            animation: breathe-glow 1.8s ease-in-out infinite;
+        }
+
+        .shiny-cta svg {
+            width: 17px;
+            height: 17px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        /* ── HERO → STORY FADE ── */
+        .fold-fade {
+            height: 120px;
+            background: linear-gradient(to bottom, transparent 0%, var(--black) 100%);
+            margin-top: -120px;
+            position: relative;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ── STORY ── */
+        .story {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            text-align: center;
+        }
+        .label {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .story h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4.5vw, 3.25rem);
+            font-weight: 400;
+            color: var(--white);
+            line-height: 1.2;
+            margin-bottom: 2.5rem;
+        }
+        .story h2 i { color: var(--gold); font-style: italic; }
+        .story p {
+            font-size: 1.05rem;
+            color: rgba(232,216,181,0.82);
+            margin: 0 auto 1.5rem;
+            max-width: 580px;
+        }
+
+        /* ── SPECS ── */
+        .specs-wrap {
+            background: var(--asphalt);
+            padding: 5.5rem 2rem;
+        }
+        .specs-inner { max-width: 1080px; margin: 0 auto; }
+        .specs-inner h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 3rem;
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 1px solid rgba(201,162,74,0.18);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .spec {
+            padding: 2rem 1.75rem;
+            border-right: 1px solid rgba(201,162,74,0.14);
+            border-bottom: 1px solid rgba(201,162,74,0.14);
+        }
+        .spec:nth-child(3n) { border-right: none; }
+        .spec:nth-last-child(-n+3) { border-bottom: none; }
+        .spec-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.36em;
+            text-transform: uppercase;
+            color: var(--silver);
+            margin-bottom: 0.5rem;
+        }
+        .spec-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--gold);
+            line-height: 1.1;
+        }
+        .spec-note {
+            font-size: 0.78rem;
+            color: rgba(232,216,181,0.42);
+            margin-top: 0.3rem;
+        }
+
+        /* ── GALLERY ── */
+        .gallery-wrap { padding: 6rem 2rem; }
+        .gallery-inner { max-width: 1200px; margin: 0 auto; }
+        .gallery-inner h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 2.5rem;
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        .grid-item { position: relative; overflow: hidden; cursor: zoom-in; aspect-ratio: 4/3; border-radius: 6px; }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.88) saturate(0.92);
+            transition: transform 0.65s ease, filter 0.4s ease;
+        }
+        .grid-item:hover img {
+            transform: scale(1.05);
+            filter: brightness(1) saturate(1.08);
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 1.25rem 0.9rem;
+            background: linear-gradient(to top, rgba(10,10,10,0.88) 0%, transparent 100%);
+            font-size: 0.66rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--cream);
+            transform: translateY(100%);
+            transition: transform 0.35s ease;
+        }
+        .grid-item:hover .caption { transform: translateY(0); }
+
+        /* ── LIGHTBOX ── */
+        .lb {
+            position: fixed;
+            inset: 0;
+            background: rgba(8,8,8,0.97);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .lb.open { opacity: 1; pointer-events: all; }
+
+        .lb-img {
+            max-width: min(92vw, 1100px);
+            max-height: 88vh;
+            object-fit: contain;
+            box-shadow: 0 0 0 1px rgba(201,162,74,0.15);
+        }
+
+        .lb-btn {
+            position: absolute;
+            background: none;
+            border: 1px solid rgba(201,162,74,0.35);
+            border-radius: 6px;
+            color: var(--gold);
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .lb-btn:hover { background: var(--gold); color: var(--black); }
+        .lb-close { top: 1.75rem; right: 1.75rem; font-size: 1rem; }
+        .lb-prev  { left: 1.5rem;  top: 50%; transform: translateY(-50%); }
+        .lb-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+
+        /* ── CONTACT ── */
+        .contact-wrap {
+            background: linear-gradient(to bottom, var(--black), #0a0a0a);
+            padding: 7rem 2rem 8rem;
+            text-align: center;
+            border-top: 1px solid rgba(201,162,74,0.1);
+        }
+        .contact-inner { max-width: 560px; margin: 0 auto; }
+        .contact-inner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            font-weight: 400;
+            color: var(--white);
+            margin-top: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+        .contact-inner p {
+            color: rgba(232,216,181,0.65);
+            font-size: 1rem;
+            margin-bottom: 3rem;
+        }
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: var(--gold);
+            color: var(--black);
+            text-decoration: none;
+            padding: 1rem 2.25rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: 2px solid var(--gold);
+            transition: background 0.3s, color 0.3s;
+        }
+        .wa-btn:hover { background: transparent; color: var(--gold); }
+        .wa-btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 1.75rem 2rem;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            color: rgba(232,216,181,0.2);
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        /* ── RESPONSIVE ── */
+
+        /* Tablet */
+        @media (max-width: 768px) {
+            /* Hero: centraliza conteúdo */
+            .hero { align-items: center; text-align: center; }
+            .hero-bg { background-position: center center; }
+            .hero-overlay {
+                background:
+                    rgba(10,8,5,0.42),
+                    linear-gradient(to bottom,
+                        rgba(10,8,5,0.1)  0%,
+                        rgba(10,8,5,0)   35%,
+                        rgba(10,8,5,0.8) 80%,
+                        rgba(10,8,5,1)  100%
+                    );
+            }
+            .hero-content {
+                padding: 2rem;
+                max-width: 100%;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+            .badge { margin: 0 auto 2rem; }
+            .rule  { margin: 0 auto; }
+            .scroll-cue { left: 50%; transform: translateX(-50%); }
+
+            /* Specs */
+            .specs-wrap { padding: 4rem 1.5rem; }
+            .specs-grid { grid-template-columns: repeat(2, 1fr); }
+            .spec:nth-child(3n)       { border-right: 1px solid rgba(201,162,74,0.14); }
+            .spec:nth-child(2n)       { border-right: none; }
+            .spec:nth-last-child(-n+2){ border-bottom: none; }
+            .spec:nth-last-child(-n+3){ border-bottom: 1px solid rgba(201,162,74,0.14); }
+
+            /* Gallery */
+            .gallery-wrap { padding: 4rem 1.5rem; }
+            .grid { grid-template-columns: repeat(2, 1fr); }
+
+            /* Story */
+            .story { padding: 3rem 1.5rem 4rem; }
+
+            /* Contact */
+            .contact-wrap { padding: 4rem 1.5rem 5rem; }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            /* Hero */
+            .hero h1 { font-size: 2.75rem; }
+            .badge { width: 84px; height: 84px; }
+            .badge::before { inset: 5px; }
+            .shiny-cta { font-size: 0.7rem; padding: 0.8rem 1.4rem; letter-spacing: 0.14em; }
+
+            /* Gallery: coluna única */
+            .grid { grid-template-columns: 1fr; gap: 4px; }
+
+            /* Captions sempre visíveis (sem hover no touch) */
+            .caption { transform: translateY(0); }
+
+            /* Specs */
+            .specs-grid { grid-template-columns: 1fr 1fr; }
+            .spec { padding: 1.5rem 1rem; }
+            .spec-value { font-size: 1.4rem; }
+
+            /* Lightbox */
+            .lb-prev { left: 0.5rem; }
+            .lb-next { right: 0.5rem; }
+            .lb-close { top: 1rem; right: 1rem; }
+            .lb-img { max-width: 96vw; max-height: 80vh; }
+
+            /* Contact */
+            .contact-wrap { padding: 3rem 1.5rem 4rem; }
+            .wa-btn { font-size: 0.75rem; padding: 0.9rem 1.5rem; }
+
+            /* Story */
+            .story { padding: 2.5rem 1.25rem 3.5rem; }
+            .story p { font-size: 0.95rem; }
+
+            /* Gallery wrap */
+            .gallery-wrap { padding: 3rem 1rem; }
+            .specs-wrap { padding: 3rem 1rem; }
+        }
+
+        /* Mobile pequeno */
+        @media (max-width: 360px) {
+            .hero h1 { font-size: 2.25rem; }
+            .hero-meta { font-size: 0.6rem; letter-spacing: 0.28em; }
+            .shiny-cta { font-size: 0.65rem; padding: 0.75rem 1.2rem; }
+            .specs-grid { grid-template-columns: 1fr; }
+            .spec:nth-child(2n) { border-right: none; }
+            .spec:nth-last-child(-n+1) { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="plate-scanner">
+            <img src="PLACA/SUA%20VEZ%20DE%20SER%20UM%20%281%29.png" alt="Placa Preta" class="plate-img">
+            <div class="scan-line"></div>
+            <div class="scan-fill"></div>
+            <div class="check-badge">✓</div>
+        </div>
+        <h1>Fusca <em>1500</em></h1>
+        <p class="hero-meta">Placa Preta &nbsp;·&nbsp; Amarelo Original &nbsp;·&nbsp; 1973</p>
+        <div class="rule"></div>
+        <a href="https://wa.me/5519996355986" class="shiny-cta" target="_blank" rel="noopener">
+            <span>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Entrar em contato
+            </span>
+        </a>
+    </div>
+    <div class="scroll-cue">Ver mais</div>
+</section>
+
+<div class="fold-fade"></div>
+
+<!-- STORY -->
+<section class="story">
+    <span class="label">O exemplar</span>
+    <h2>Cinquenta e dois anos.<br><i>Nenhuma concessão.</i></h2>
+    <p>
+        Placa preta não é categoria de qualquer carro. É um título conquistado com décadas de cuidado. Quando você vê esse Fusca pessoalmente, entende por que ele merece.
+    </p>
+    <p>
+        Motor 1500 original, pintura impecável, interior de couro intacto, painel em madeira, rodas com friso branco e calotas cromadas. Documentação em dia, registro de placa preta dentro das normas. Tudo em ordem. Nada a esconder.
+    </p>
+    <p>
+        Quem entende de carro sabe que exemplares assim não aparecem toda hora. Quando aparecem, somem rápido.
+    </p>
+    <a href="https://wa.me/5519996355986" class="shiny-cta" target="_blank" rel="noopener" style="margin-top:2.5rem;">
+        <span>
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Quero este Fusca
+        </span>
+    </a>
+</section>
+
+<!-- SPECS -->
+<div class="specs-wrap">
+    <div class="specs-inner">
+        <span class="label">Especificações</span>
+        <h3>Cada detalhe no lugar certo.</h3>
+        <div class="specs-grid">
+            <div class="spec">
+                <div class="spec-label">Ano</div>
+                <div class="spec-value">1973</div>
+                <div class="spec-note">Fabricação original</div>
+            </div>
+            <div class="spec">
+                <div class="spec-label">Motor</div>
+                <div class="spec-value">1500</div>
+                <div class="spec-note">Refrigerado a ar</div>
+            </div>
+            <div class="spec">
+                <div class="spec-label">Placa</div>
+                <div class="spec-value">Preta</div>
+                <div class="spec-note">Colecionável</div>
+            </div>
+            <div class="spec">
+                <div class="spec-label">Cor</div>
+                <div class="spec-value">Amarelo</div>
+                <div class="spec-note">Pintura original</div>
+            </div>
+            <div class="spec">
+                <div class="spec-label">Interior</div>
+                <div class="spec-value">Couro</div>
+                <div class="spec-note">Preto, sem rasgos</div>
+            </div>
+            <div class="spec">
+                <div class="spec-label">Estado</div>
+                <div class="spec-value">Muito</div>
+                <div class="spec-note">conservado</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-wrap">
+    <div class="gallery-inner">
+        <span class="label">Galeria</span>
+        <h3>Veja com seus próprios olhos.</h3>
+        <div class="grid" id="gallery">
+            <div class="grid-item" data-i="0">
+                <img src="FOTOS/5.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">Silhueta que não precisa de apresentação</div>
+            </div>
+            <div class="grid-item" data-i="1">
+                <img src="FOTOS/6.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">Faróis e para-choque cromados originais</div>
+            </div>
+            <div class="grid-item" data-i="2">
+                <img src="FOTOS/3.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">Lataria sem intervenção</div>
+            </div>
+            <div class="grid-item" data-i="3">
+                <img src="FOTOS/1.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">52 anos de estrada</div>
+            </div>
+            <div class="grid-item" data-i="4">
+                <img src="FOTOS/2.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">Friso branco e calota cromada</div>
+            </div>
+            <div class="grid-item" data-i="5">
+                <img src="FOTOS/7.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">Pintura impecável</div>
+            </div>
+            <div class="grid-item" data-i="6">
+                <img src="FOTOS/4.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">A estrada vista de dentro</div>
+            </div>
+            <div class="grid-item" data-i="7">
+                <img src="FOTOS/8.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">Couro preto e painel em madeira</div>
+            </div>
+            <div class="grid-item" data-i="8">
+                <img src="FOTOS/9.png" alt="Fusca 1500 1973" loading="lazy">
+                <div class="caption">Cada detalhe tem uma história</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+    <button class="lb-btn lb-close" id="lb-close" aria-label="Fechar">✕</button>
+    <button class="lb-btn lb-prev"  id="lb-prev"  aria-label="Anterior">‹</button>
+    <img class="lb-img" id="lb-img" src="" alt="">
+    <button class="lb-btn lb-next"  id="lb-next"  aria-label="Próxima">›</button>
+</div>
+
+<!-- CONTACT -->
+<!-- ATENÇÃO: substitua o número abaixo pelo seu WhatsApp real (só dígitos, com DDD e código do país) -->
+<!-- Exemplo: https://wa.me/5511999999999 -->
+<div class="contact-wrap">
+    <div class="contact-inner">
+        <span class="label">Contato</span>
+        <h2>Ainda disponível.</h2>
+        <p>Exemplares nesse estado de conservação são raros. Se você está lendo isso, ainda dá tempo. Entre em contato para mais fotos ou para agendar uma visita.</p>
+        <a href="https://wa.me/5519996355986" class="shiny-cta" target="_blank" rel="noopener">
+            <span>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Falar pelo WhatsApp
+            </span>
+        </a>
+    </div>
+</div>
+
+<footer>Fusca 1500 &nbsp;·&nbsp; 1973 &nbsp;·&nbsp; Placa Preta &nbsp;·&nbsp; Socorro, SP</footer>
+
+<script>
+    const srcs = [
+        'FOTOS/5.png',
+        'FOTOS/6.png',
+        'FOTOS/3.png',
+        'FOTOS/1.png',
+        'FOTOS/2.png',
+        'FOTOS/7.png',
+        'FOTOS/4.png',
+        'FOTOS/8.png',
+        'FOTOS/9.png',
+    ];
+
+    let cur = 0;
+    const lb    = document.getElementById('lb');
+    const lbImg = document.getElementById('lb-img');
+
+    function open(i) {
+        cur = i;
+        lbImg.src = srcs[i];
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function close() {
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(() => { lbImg.src = ''; }, 300);
+    }
+    function nav(d) {
+        cur = (cur + d + srcs.length) % srcs.length;
+        lbImg.src = srcs[cur];
+    }
+
+    document.querySelectorAll('.grid-item').forEach(el => {
+        el.addEventListener('click', () => open(+el.dataset.i));
+    });
+    document.getElementById('lb-close').addEventListener('click', close);
+    document.getElementById('lb-prev').addEventListener('click', () => nav(-1));
+    document.getElementById('lb-next').addEventListener('click', () => nav(1));
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape')      close();
+        if (e.key === 'ArrowLeft')   nav(-1);
+        if (e.key === 'ArrowRight')  nav(1);
+    });
+</script>
+</body>
+</html>
