@@ -228,16 +228,13 @@
             100% { opacity: 0; transform: scaleY(1); transform-origin: top; }
         }
 
-        /* ── HERO BOTTOM FADE (inside hero, no gap possible) ── */
-        .hero-fade {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 220px;
-            background: linear-gradient(to bottom, transparent 0%, var(--black) 100%);
+        /* ── HERO → STORY TRANSITION (wrapper pulls story UP into hero) ── */
+        .hero-to-story {
+            position: relative;
             z-index: 1;
-            pointer-events: none;
+            margin-top: -220px;
+            padding-top: 220px;
+            background: linear-gradient(to bottom, transparent 0px, var(--black) 220px);
         }
 
         /* ── SHINY BUTTON ── */
@@ -666,10 +663,10 @@
         </a>
     </div>
     <div class="scroll-cue">Descubra o exemplar</div>
-    <div class="hero-fade"></div>
 </section>
 
 <!-- STORY -->
+<div class="hero-to-story">
 <section class="story">
     <span class="label">Por que este exemplar é diferente</span>
     <h2>Um Fusca que o tempo<br><i>não conseguiu vencer.</i></h2>
@@ -689,6 +686,7 @@
         </span>
     </a>
 </section>
+</div>
 
 <!-- SPECS -->
 <div class="specs-wrap">
@@ -732,7 +730,7 @@
 
 <!-- URGENCY BAR -->
 <div class="urgency-bar">
-    <span>Disponível agora em Socorro, SP &nbsp;·&nbsp; Visita com hora marcada &nbsp;·&nbsp; Um único comprador</span>
+    <span>Disponível agora em Socorro, SP &nbsp;·&nbsp; Visita com hora marcada</span>
 </div>
 
 <!-- GALLERY -->
