@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fusca 1500 · 1972 · Placa Preta</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:   #C9A24A;
+    --black:  #111111;
+    --cream:  #E8D8B5;
+    --silver: #BFC1C2;
+    --white:  #F5F5F0;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    min-height: 100%;
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    padding: 2.5rem 1.5rem;
+    background-image:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201,162,74,0.07) 0%, transparent 70%);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── Foto do carro ── */
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(201,162,74,0.5);
+    overflow: hidden;
+    margin-bottom: 1.4rem;
+    position: relative;
+  }
+  .avatar::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,162,74,0.2);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.88) saturate(0.9);
+  }
+
+  /* ── Nome e sub ── */
+  .name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    text-align: center;
+    line-height: 1.1;
+  }
+  .name em { color: var(--gold); font-style: normal; }
+
+  .rule {
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    margin: 1rem auto;
+    opacity: 0.6;
+  }
+
+  .sub {
+    font-size: 0.64rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--silver);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Links ── */
+  .links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s ease;
+  }
+  .link-btn:active { transform: scale(0.98); }
+
+  /* WhatsApp */
+  .link-btn.whatsapp {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,162,74,0.22);
+  }
+  .link-btn.whatsapp:hover {
+    background: rgba(201,162,74,0.08);
+    border-color: rgba(201,162,74,0.5);
+  }
+
+  /* Site */
+  .link-btn.site {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: #0e0c07;
+  }
+  .link-btn.site:hover { opacity: 0.88; }
+  .link-btn.site .btn-label { color: #0e0c07; }
+  .link-btn.site .btn-sub   { color: rgba(14,12,7,0.6); }
+  .link-btn.site .btn-icon  { background: rgba(14,12,7,0.12); color: #0e0c07; }
+
+  .btn-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: rgba(201,162,74,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--gold);
+  }
+  .btn-icon svg { width: 20px; height: 20px; fill: currentColor; }
+
+  .btn-text { display: flex; flex-direction: column; gap: 1px; }
+  .btn-label {
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+  .btn-sub {
+    font-size: 0.68rem;
+    color: rgba(232,216,181,0.45);
+    letter-spacing: 0.02em;
+  }
+
+  /* Shimmer no hover do WhatsApp */
+  .link-btn.whatsapp::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(201,162,74,0.06), transparent);
+    transform: skewX(-18deg);
+    transition: left 0.4s ease;
+  }
+  .link-btn.whatsapp:hover::after { left: 140%; }
+
+  /* ── Rodapé ── */
+  .footer {
+    margin-top: 2.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(232,216,181,0.18);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="avatar">
+    <img src="../FOTOS/5.webp" alt="Fusca 1500 1972">
+  </div>
+
+  <div class="name">Fusca <em>1500</em></div>
+  <div class="rule"></div>
+  <div class="sub">1972 &nbsp;·&nbsp; Placa Preta &nbsp;·&nbsp; Socorro, SP</div>
+
+  <div class="links">
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/5519996355986" class="link-btn whatsapp" target="_blank" rel="noopener">
+      <div class="btn-icon">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </div>
+      <div class="btn-text">
+        <span class="btn-label">Entrar em contato</span>
+        <span class="btn-sub">WhatsApp · (19) 99635-5986</span>
+      </div>
+    </a>
+
+    <!-- Site -->
+    <a href="https://fuscadecolecionador.netlify.app" class="link-btn site" target="_blank" rel="noopener">
+      <div class="btn-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      </div>
+      <div class="btn-text">
+        <span class="btn-label">Acesse o site</span>
+        <span class="btn-sub">fuscadecolecionador.netlify.app</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">Fusca 1500 &nbsp;·&nbsp; 1972 &nbsp;·&nbsp; Placa Preta</div>
+
+</div>
+
+</body>
+</html>
